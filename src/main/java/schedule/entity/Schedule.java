@@ -7,18 +7,17 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "users")
+@Table(name = "schedules")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Schedule {
+public class Schedule extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(length = 50 , nullable = false)
-    private String title;//제목
+    private String title;//일정 제목
     @Column(length = 50 , nullable = false)
-    private String content; //이름
+    private String content; //일정 내용
     private String author; //작성자명
     private String password; // 비밀번호
 
