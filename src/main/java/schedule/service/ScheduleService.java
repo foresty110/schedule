@@ -50,7 +50,8 @@ public class ScheduleService {
                 schedule.getTitle(),
                 schedule.getContent(),
                 schedule.getAuthor(),
-                schedule.getPassword()
+                schedule.getCreatedAt(),
+                schedule.getModifiedAt()
         );
     }
 
@@ -65,7 +66,8 @@ public class ScheduleService {
                     schedule.getTitle(),
                     schedule.getContent(),
                     schedule.getAuthor(),
-                    schedule.getPassword()
+                    schedule.getCreatedAt(),
+                    schedule.getModifiedAt()
             ));
         }
 

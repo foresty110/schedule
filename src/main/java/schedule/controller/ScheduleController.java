@@ -16,7 +16,6 @@ public class ScheduleController {
 
     @PostMapping("/schedules")
     public ResponseEntity<CreateScheduleResponse> createSchedule(@RequestBody CreateScheduleRequest createScheduleRequest) {
-        System.out.println("Create Schedule Request");
         CreateScheduleResponse createUserResponse = scheduleService.save(createScheduleRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(createUserResponse);
     }
