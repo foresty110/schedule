@@ -20,17 +20,19 @@ public class ScheduleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createUserResponse);
     }
 
-    @GetMapping("/schedules/{userId}")
-    public ResponseEntity<GetOneScheduleResponse> getSchedule(@PathVariable long userId) {
-        GetOneScheduleResponse one = scheduleService.getOne(userId);
+    @GetMapping("/schedules/{id}")
+    public ResponseEntity<GetOneScheduleResponse> getSchedule(@PathVariable long id) {
+        GetOneScheduleResponse one = scheduleService.getOne(id);
         return ResponseEntity.status(HttpStatus.OK).body(one);
     }
 
     @GetMapping("/schedules")
-    public ResponseEntity<List<GetOneScheduleResponse>> getAllSchedule() {
-        List<GetOneScheduleResponse> all = scheduleService.getAll();
+    public ResponseEntity<List<GetOneScheduleResponse>> getAllSchedule(@RequestParam(required = false) String author) {
+        List<GetOneScheduleResponse> all = scheduleService.getAll(author);
         return ResponseEntity.status(HttpStatus.OK).body(all);
     }
+// PathVariable - 경로변수
+//PathVariable이 아니면 똑같은 url임
 
     @PutMapping("/schedules/{userId}")
     public ResponseEntity<UpdateScheduleResponse> updateSchedule(@PathVariable Long userId, @RequestBody UpdateScheduleRequest updateScheduleRequest) {

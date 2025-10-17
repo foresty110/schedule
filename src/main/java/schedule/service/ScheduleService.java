@@ -1,5 +1,6 @@
 package schedule.service;
 
+import org.springframework.web.bind.annotation.RequestBody;
 import schedule.Repository.ScheduleRepository;
 import schedule.dto.*;
 import schedule.entity.Schedule;
@@ -7,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +40,8 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public GetOneScheduleResponse getOne(long userId) {
-        Schedule schedule = scheduleRepository.findById(userId).orElseThrow(
+    public GetOneScheduleResponse getOne(long id) {
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
                 () -> new IllegalStateException("존재하지 않는 id입니다.")
         );
 
@@ -56,11 +56,12 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public List<GetOneScheduleResponse> getAll() {
-        List<Schedule> schedules = scheduleRepository.findAll();
+    public List<GetOneScheduleResponse> getAll(String author) {
+        List<Schedule> schedules = scheduleRepository.findAllByAuthor(author);
 
         List<GetOneScheduleResponse> responses = new ArrayList<>();
         for (Schedule schedule : schedules) {
+            System.out.println(schedule.getTitle());
             responses.add(new GetOneScheduleResponse(
                     schedule.getId(),
                     schedule.getTitle(),
