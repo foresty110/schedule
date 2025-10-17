@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -81,15 +82,21 @@ public class ScheduleService {
     }
 
     @Transactional
-    public UpdateScheduleResponse update(Long id, UpdateScheduleRequest updateScheduleRequest) {
+    public UpdateScheduleResponse update(Long id, UpdateScheduleRequest request) {
 
+        //id 검사
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(
                 () -> new IllegalStateException("존재하지 않는 id입니다.")
         );
 
+        //password 검사
+        if (!schedule.getPassword().equals(request.getPassword())) {
+            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+        }
+
         schedule.update(
-                updateScheduleRequest.getTitle(),
-                updateScheduleRequest.getAuthor()
+                request.getTitle(),
+                request.getAuthor()
         );
 
         return new UpdateScheduleResponse(
@@ -103,12 +110,19 @@ public class ScheduleService {
     }
 
     @Transactional
-    public void delete(long id) {
-        boolean exists = scheduleRepository.existsById(id);
-        if (!exists) {
-            throw new IllegalStateException("존재하지 않는 id입니다.");
+    public void delete(long id, String password) {
+
+        //id 검사
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
+                () -> new IllegalStateException("존재하지 않는 id입니다.")
+        );
+
+        //password 검사
+        if (!schedule.getPassword().equals(password)) {
+            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
+
+        //일정 삭제
         scheduleRepository.deleteById(id);
     }
-
 }

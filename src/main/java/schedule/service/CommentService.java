@@ -10,6 +10,7 @@ import schedule.dto.CreateCommentRequest;
 import schedule.dto.CreateCommentResponse;
 import schedule.dto.GetOneCommentResponse;
 import schedule.entity.Comment;
+import schedule.entity.Schedule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,22 +18,25 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
+
     private final CommentRepository commentRepository;
     private final ScheduleRepository scheduleRepository;
 
     @Transactional
     public CreateCommentResponse save(Long scheduleId, CreateCommentRequest request) {
 
-        long commentNum = commentRepository.countByScheduleId(scheduleId);
+        //id&password 검사
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                () -> new IllegalStateException("존재하지 않는 id입니다.")
+        );
 
+        if (!schedule.getPassword().equals(request.getPassword())) {
+            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+        }
+        //일정 당 댓글 개수 제한
+       long commentNum =  commentRepository.countByScheduleId(scheduleId);
         if (commentNum >= Constants.MAX_COMMENT) {
             throw new IllegalStateException("하나의 일정에는 댓글을 10개까지만 작성할 수 있습니다.");
-        }
-
-        //scheduleId 검사
-        boolean exists = scheduleRepository.existsById(scheduleId);
-        if (!exists) {
-            throw new IllegalStateException("존재하지 않는 id입니다.");
         }
 
         Comment comment = new Comment(

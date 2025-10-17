@@ -40,7 +40,7 @@ public class ScheduleController {
 
     @DeleteMapping("/schedules/{id}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable long id, @RequestBody String password) {
-        scheduleService.delete(id);
+        scheduleService.delete(id,password);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
