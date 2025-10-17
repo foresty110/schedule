@@ -14,11 +14,13 @@ public class Schedule extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 50 , nullable = false)
+    @Column(length = 30 , nullable = false)
     private String title;//일정 제목
-    @Column(length = 50 , nullable = false)
+    @Column(length = 200 , nullable = false)
     private String content; //일정 내용
+    @Column(nullable = false)
     private String author; //작성자명
+    @Column(nullable = false)
     private String password; // 비밀번호
 
     public Schedule(String title, String content, String author, String password) {
