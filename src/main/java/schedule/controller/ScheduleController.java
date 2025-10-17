@@ -43,14 +43,6 @@ public class ScheduleController {
         scheduleService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-    //직렬화 - 역직렬화
-    // 다른 객체를 우리 객체로 만들때 직렬화한다
-    //json -> java 직렬화
-    //java -> db 또는 json으로 만들떄 역직렬화
 
-    //직렬화 방식: 파라미터 순서대로 생성자에 넣어주기
-    //빈 객체륾 만들어서 setter로 넣어주기
-
-    //한개짜리는 생성자를 만들어 넣어줘야
 
 }
