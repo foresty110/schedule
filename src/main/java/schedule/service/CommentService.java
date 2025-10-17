@@ -1,8 +1,6 @@
 package schedule.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import schedule.Constants;
@@ -10,9 +8,12 @@ import schedule.Repository.CommentRepository;
 import schedule.Repository.ScheduleRepository;
 import schedule.dto.CreateCommentRequest;
 import schedule.dto.CreateCommentResponse;
+import schedule.dto.GetOneCommentResponse;
 import schedule.entity.Comment;
-import schedule.entity.Schedule;
-@Slf4j
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -22,13 +23,11 @@ public class CommentService {
     @Transactional
     public CreateCommentResponse save(Long scheduleId, CreateCommentRequest request) {
 
-       long commentNum = commentRepository.countByScheduleId(scheduleId);
+        long commentNum = commentRepository.countByScheduleId(scheduleId);
 
-        //Logger log = null;
-        log.info("commentNum = " + commentNum);
-       if(commentNum >= Constants.MAX_COMMENT){
-           throw new IllegalStateException("하나의 일정에는 댓글을 10개까지만 작성할 수 있습니다.");
-       }
+        if (commentNum >= Constants.MAX_COMMENT) {
+            throw new IllegalStateException("하나의 일정에는 댓글을 10개까지만 작성할 수 있습니다.");
+        }
 
         //scheduleId 검사
         boolean exists = scheduleRepository.existsById(scheduleId);
@@ -53,5 +52,25 @@ public class CommentService {
                 comment.getCreatedAt(),
                 comment.getModifiedAt()
         );
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<GetOneCommentResponse> getAll(Long scheduleId) {
+        List<Comment> comments = commentRepository.findAllByScheduleId(scheduleId);
+
+        List<GetOneCommentResponse> commentResponses = new ArrayList<>();
+        for (Comment comment : comments) {
+            commentResponses.add(new GetOneCommentResponse(
+                    comment.getId(),
+                    comment.getScheduleId(),
+                    comment.getAuthor(),
+                    comment.getContent(),
+                    comment.getCreatedAt(),
+                    comment.getModifiedAt()
+            ));
+        }
+
+        return commentResponses;
     }
 }

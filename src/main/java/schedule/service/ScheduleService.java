@@ -1,6 +1,5 @@
 package schedule.service;
 
-import org.springframework.web.bind.annotation.RequestBody;
 import schedule.Repository.ScheduleRepository;
 import schedule.dto.*;
 import schedule.entity.Schedule;
@@ -16,6 +15,7 @@ import java.util.List;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final CommentService commentService;
 
     @Transactional
     public CreateScheduleResponse save(CreateScheduleRequest createScheduleRequest) {
@@ -45,24 +45,29 @@ public class ScheduleService {
                 () -> new IllegalStateException("존재하지 않는 id입니다.")
         );
 
+        //일정에 등록된 댓글 찾기
+        List<GetOneCommentResponse> commentResponses = commentService.getAll(schedule.getId());
+
         return new GetOneScheduleResponse(
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
                 schedule.getAuthor(),
                 schedule.getCreatedAt(),
-                schedule.getModifiedAt()
+                schedule.getModifiedAt(),
+                commentResponses
         );
     }
 
     @Transactional(readOnly = true)
-    public List<GetOneScheduleResponse> getAll(String author) {
+    public List<GetAllScheduleResponse> getAll(String author) {
+
+        // 작성자명으로 전체 스케쥴 조회
         List<Schedule> schedules = scheduleRepository.findAllByAuthor(author);
 
-        List<GetOneScheduleResponse> responses = new ArrayList<>();
+        List<GetAllScheduleResponse> responses = new ArrayList<>();
         for (Schedule schedule : schedules) {
-            System.out.println(schedule.getTitle());
-            responses.add(new GetOneScheduleResponse(
+            responses.add(new GetAllScheduleResponse(
                     schedule.getId(),
                     schedule.getTitle(),
                     schedule.getContent(),
@@ -71,7 +76,7 @@ public class ScheduleService {
                     schedule.getModifiedAt()
             ));
         }
-        responses.sort((a,b)->b.getModifiedAt().compareTo(a.getModifiedAt()));
+        responses.sort((a, b) -> b.getModifiedAt().compareTo(a.getModifiedAt()));
         return responses;
     }
 
@@ -79,7 +84,7 @@ public class ScheduleService {
     public UpdateScheduleResponse update(Long id, UpdateScheduleRequest updateScheduleRequest) {
 
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(
-                ()->new IllegalStateException("존재하지 않는 id입니다.")
+                () -> new IllegalStateException("존재하지 않는 id입니다.")
         );
 
         schedule.update(
@@ -105,4 +110,5 @@ public class ScheduleService {
         }
         scheduleRepository.deleteById(id);
     }
+
 }
