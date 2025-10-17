@@ -16,8 +16,8 @@ public class ScheduleController {
 
     @PostMapping("/schedules")
     public ResponseEntity<CreateScheduleResponse> createSchedule(@RequestBody CreateScheduleRequest createScheduleRequest) {
-        CreateScheduleResponse createUserResponse = scheduleService.save(createScheduleRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createUserResponse);
+        CreateScheduleResponse createScheduleResponse = scheduleService.save(createScheduleRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createScheduleResponse);
     }
 
     @GetMapping("/schedules/{id}")
@@ -31,18 +31,16 @@ public class ScheduleController {
         List<GetOneScheduleResponse> all = scheduleService.getAll(author);
         return ResponseEntity.status(HttpStatus.OK).body(all);
     }
-// PathVariable - 경로변수
-//PathVariable이 아니면 똑같은 url임
 
-    @PutMapping("/schedules/{userId}")
-    public ResponseEntity<UpdateScheduleResponse> updateSchedule(@PathVariable Long userId, @RequestBody UpdateScheduleRequest updateScheduleRequest) {
-        UpdateScheduleResponse update = scheduleService.update(userId, updateScheduleRequest);
+    @PutMapping("/schedules/{id}")
+    public ResponseEntity<UpdateScheduleResponse> updateSchedule(@PathVariable Long id, @RequestBody UpdateScheduleRequest request) {
+        UpdateScheduleResponse update = scheduleService.update(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(update);
     }
 
-    @DeleteMapping("/schedules/{userId}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable long userId) {
-        scheduleService.delete(userId);
+    @DeleteMapping("/schedules/{id}")
+    public ResponseEntity<Void> deleteSchedule(@PathVariable long id) {
+        scheduleService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

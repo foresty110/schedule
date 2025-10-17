@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -77,17 +76,15 @@ public class ScheduleService {
     }
 
     @Transactional
-    public UpdateScheduleResponse update(Long userId, UpdateScheduleRequest updateScheduleRequest) {
+    public UpdateScheduleResponse update(Long id, UpdateScheduleRequest updateScheduleRequest) {
 
-        Schedule schedule = scheduleRepository.findById(userId).orElseThrow(
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
                 ()->new IllegalStateException("존재하지 않는 id입니다.")
         );
 
         schedule.update(
                 updateScheduleRequest.getTitle(),
-                updateScheduleRequest.getContent(),
-                updateScheduleRequest.getAuthor(),
-                updateScheduleRequest.getPassword()
+                updateScheduleRequest.getAuthor()
         );
 
         return new UpdateScheduleResponse(
@@ -95,16 +92,17 @@ public class ScheduleService {
                 schedule.getTitle(),
                 schedule.getContent(),
                 schedule.getAuthor(),
-                schedule.getPassword()
+                schedule.getCreatedAt(),
+                schedule.getModifiedAt()
         );
     }
 
     @Transactional
-    public void delete(long userId) {
-        boolean exists = scheduleRepository.existsById(userId);
+    public void delete(long id) {
+        boolean exists = scheduleRepository.existsById(id);
         if (!exists) {
             throw new IllegalStateException("존재하지 않는 id입니다.");
         }
-        scheduleRepository.deleteById(userId);
+        scheduleRepository.deleteById(id);
     }
 }
