@@ -4,6 +4,9 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+/* GetOneCommentResponse
+ * ---------------------------
+ * 단일 댓글 조회 응답 DTO */
 @Getter
 public class GetOneCommentResponse {
 

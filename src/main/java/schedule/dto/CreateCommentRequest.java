@@ -2,8 +2,9 @@ package schedule.dto;
 
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
+/* CreateCommentRequest
+ * ---------------------------
+ * 댓글 생성 요청 DTO */
 @Getter
 public class CreateCommentRequest {
 

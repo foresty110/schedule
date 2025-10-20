@@ -9,10 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/* ScheduleController
+ * ---------------------------
+ * 일정 관련 REST API를 처리하는 컨트롤러 클래스입니다. */
 @RestController
 @RequiredArgsConstructor
 public class ScheduleController {
-    private final ScheduleService scheduleService;
+    private final ScheduleService scheduleService; // 일정 비즈니스 로직을 수행하는 서비스
 
     @PostMapping("/schedules")
     public ResponseEntity<CreateScheduleResponse> createSchedule(@RequestBody CreateScheduleRequest createScheduleRequest) {

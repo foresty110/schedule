@@ -4,6 +4,9 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+/* CreateScheduleRequest
+ * ---------------------------
+ * 댓글 생성 응답 DTO */
 @Getter
 public class CreateCommentResponse {
 

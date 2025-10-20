@@ -10,12 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/* ScheduleService
+ * ---------------------------
+ * 일정과 관련된 비즈니스 로직을 처리하는 서비스 클래스입니다.
+ * 일정 데이터의 생성, 조회, 수정, 삭제 기능을 제공합니다.
+ */
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
 
-    private final ScheduleRepository scheduleRepository;
-    private final CommentService commentService;
+    private final ScheduleRepository scheduleRepository; //일정 데이터
+    private final CommentService commentService; // 일정 데이터 반환 시 해당 일정에 등록된 댓글을 함께 반환하며 이때 사용합니다.
 
     @Transactional
     public CreateScheduleResponse save(CreateScheduleRequest createScheduleRequest) {

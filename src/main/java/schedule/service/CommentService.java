@@ -15,12 +15,16 @@ import schedule.entity.Schedule;
 import java.util.ArrayList;
 import java.util.List;
 
+/* CommentService
+ * ---------------------------
+ * 댓글과 관련된 비즈니스 로직을 처리하는 서비스 클래스입니다.
+ * 특정 일정에 대한 댓글 생성 및 조회 기능을 제공합니다. */
 @Service
 @RequiredArgsConstructor
 public class CommentService {
 
-    private final CommentRepository commentRepository;
-    private final ScheduleRepository scheduleRepository;
+    private final CommentRepository commentRepository; //댓글 데이터를 가지고 있는 데이터베이스에 접근하기 위한 리포지토리입니다.
+    private final ScheduleRepository scheduleRepository; // 댓글이 속한 일정의 존재 여부와 비밀번호 검증을 수행하기 위한 리포지토리입니다.
 
     @Transactional
     public CreateCommentResponse save(Long scheduleId, CreateCommentRequest request) {

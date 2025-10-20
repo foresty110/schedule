@@ -4,6 +4,9 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+/* GetAllScheduleResponse
+ * ---------------------------
+ * 전체 일정 조회 응답 DTO */
 @Getter
 public class GetAllScheduleResponse {
 

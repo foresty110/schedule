@@ -2,8 +2,9 @@ package schedule.dto;
 
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
+/* CreateScheduleRequest
+ * ---------------------------
+ * 일정 생성 요청 DTO */
 @Getter
 public class CreateScheduleRequest {
 

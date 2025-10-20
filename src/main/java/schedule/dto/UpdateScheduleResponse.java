@@ -1,14 +1,16 @@
 package schedule.dto;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/* UpdateScheduleResponse
+ * ---------------------------
+ *  일정 수정(Update) 요청 이후, 수정된 정보를 클라이언트에 반환하기 위한 응답 DTO입니다. */
 @Getter
 public class UpdateScheduleResponse {
 
-    private Long id; //아이디
+    private final Long id; //아이디
     private final String title; //일정 제목
     private final String content; //일정 내용
     private final String author; //작성자명
