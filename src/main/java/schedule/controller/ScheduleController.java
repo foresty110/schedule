@@ -19,6 +19,13 @@ public class ScheduleController {
 
     @PostMapping("/schedules")
     public ResponseEntity<CreateScheduleResponse> createSchedule(@RequestBody CreateScheduleRequest createScheduleRequest) {
+
+        if (createScheduleRequest.getContent() == null ||
+                createScheduleRequest.getAuthor() == null ||
+                createScheduleRequest.getPassword() == null){
+            throw new IllegalStateException("필수 입력값 누락");
+        }
+
         CreateScheduleResponse createScheduleResponse = scheduleService.save(createScheduleRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(createScheduleResponse);
     }

@@ -21,7 +21,15 @@ public class CommentController {
 
     @PostMapping("/schedules/{scheduleId}/comments")
     public ResponseEntity<CreateCommentResponse> createComment(@PathVariable Long scheduleId, @RequestBody CreateCommentRequest request) {
-        CreateCommentResponse response = commentService.save(scheduleId,request);
+
+        CreateCommentResponse response ;
+        if (request.getContent() == null ||
+                request.getAuthor() == null ||
+                request.getPassword() == null){
+            throw new IllegalStateException("필수 입력값 누락");
+        }
+
+         response = commentService.save(scheduleId,request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
